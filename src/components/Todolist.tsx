@@ -34,12 +34,12 @@ export const Todolist = React.memo((props: propsType) => {
         }, [])
 
         const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
-            dispatch(changeTodolistFilterAC(todolistId, value))
+            dispatch(changeTodolistFilterAC({id:todolistId,filter:value}))
         }, [])
 
 
-        const removeTask = useCallback((id: string, todolistId: string) => {
-            dispatch(removeTasksTC(id,todolistId))
+        const removeTask = useCallback((taskId: string, todolistId: string) => {
+            dispatch(removeTasksTC({taskId,todolistId}))
         }, [])
 
         const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses, todolistId: string) => {
@@ -60,7 +60,7 @@ export const Todolist = React.memo((props: propsType) => {
         if (props.filter === "active") {
             tasksForTodolist = tasksForTodolist.filter(f => f.status === TasksStatuses.New)
         }
-console.log(props.entityStatus)
+
         return <div>
             <h3><EditableSpan title={props.title} onChange={changeTodolistTitle}/>
                 <IconButton onClick={removeTodolist} disabled={props.entityStatus === 'loading'}>
