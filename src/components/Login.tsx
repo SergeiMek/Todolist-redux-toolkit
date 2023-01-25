@@ -8,9 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {loginTC} from "../state/authReducer";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {Navigate} from "react-router-dom";
+import {loginTC} from "../state/authReducer";
 
 
 type FormikErrorType = {
@@ -33,9 +33,15 @@ export const Login = () => {
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
-            //alert(JSON.stringify(values));
-            dispatch(loginTC(values))
+        onSubmit: async (values,formikHelpers) => {
+
+          const action = await dispatch(loginTC(values))
+            if(loginTC.rejected.match(action)){
+                if(action.payload?.fieldsErrors?.length){
+                    const error = action.payload?.fieldsErrors[0];
+                    formikHelpers.setFieldError(error.field,error.error)
+                }
+            }
             formik.resetForm()
         },
         validate: (values) => {

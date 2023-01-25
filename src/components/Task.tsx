@@ -22,10 +22,11 @@ export const Task = React.memo((props: TaskPropsType) => {
         <Checkbox checked={props.task.status === TasksStatuses.Completed}
                   onChange={(e) => props.changeTaskStatus(props.task.id, e.currentTarget.checked ? TasksStatuses.Completed : TasksStatuses.New, props.todolistId)}/>
         <EditableSpan title={props.task.title}
-                      onChange={useCallback((title: string) => dispatch(updateTaskTC(props.task.id, props.todolistId,{title})), [props.todolistId, props.task.id])}/>
+                      onChange={useCallback((title: string) => dispatch(updateTaskTC({taskId:props.task.id,todolistId:props.todolistId,domainModel:{title}})), [props.todolistId, props.task.id])}/>
         <IconButton onClick={() => props.removeTask(props.task.id, props.todolistId)}>
             <Delete/>
         </IconButton>
     </div>
 
 })
+

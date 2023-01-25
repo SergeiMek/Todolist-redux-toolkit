@@ -9,7 +9,7 @@ import {
     fetchTasksTC,
     removeTasksTC, updateTaskTC
 } from "../state/tasks-reducer";
-import {changeTodolistFilterAC,FilterValueType} from "../state/todolists-reducer";
+import {changeTodolistFilterAC, FilterValueType} from "../state/todolists-reducer";
 import {Task} from "./Task";
 import {TasksStatuses} from "../api/todolists-api";
 import {StatusType} from "../state/app-reducer";
@@ -21,7 +21,7 @@ type propsType = {
     filter: FilterValueType
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (newValue: string, todolistId: string) => void
-    entityStatus:StatusType
+    entityStatus: StatusType
 }
 
 
@@ -34,16 +34,16 @@ export const Todolist = React.memo((props: propsType) => {
         }, [])
 
         const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
-            dispatch(changeTodolistFilterAC({id:todolistId,filter:value}))
+            dispatch(changeTodolistFilterAC({id: todolistId, filter: value}))
         }, [])
 
 
         const removeTask = useCallback((taskId: string, todolistId: string) => {
-            dispatch(removeTasksTC({taskId,todolistId}))
+            dispatch(removeTasksTC({taskId, todolistId}))
         }, [])
 
         const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses, todolistId: string) => {
-            dispatch(updateTaskTC(taskId, todolistId, {status}))
+            dispatch(updateTaskTC({taskId,todolistId,domainModel:{status}}))
         }, [])
 
 
@@ -67,7 +67,9 @@ export const Todolist = React.memo((props: propsType) => {
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={useCallback(title => dispatch(addTasksTC(title,props.id)), [props.id])}disabled={props.entityStatus === 'loading'}/>
+            <AddItemForm
+                addItem={useCallback(title => dispatch(addTasksTC({taskTitle: title, todolistId: props.id})), [props.id])}
+                disabled={props.entityStatus === 'loading'}/>
             <div>
                 {
                     tasksForTodolist.map(t => <Task task={t} todolistId={props.id} changeTaskStatus={changeTaskStatus}

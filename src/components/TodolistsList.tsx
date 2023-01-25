@@ -20,16 +20,16 @@ export const TodolistList = () => {
     }, [])
 
 
-    const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC(title))
+    const addTodolist = useCallback((todolistTitle: string) => {
+        dispatch(addTodolistTC({todolistTitle}))
     }, [])
 
     const removeTodolist = useCallback((todolistId: string) => {
-        dispatch(removeTodolistTC(todolistId))
+        dispatch(removeTodolistTC({todolistId}))
     }, [])
 
-    const changeTodolistTitle = useCallback((newValue: string, todolistId: string) => {
-        dispatch(changeTodolistTitleTC(todolistId, newValue))
+    const changeTodolistTitle = useCallback((todolistTitle: string, todolistId: string) => {
+        dispatch(changeTodolistTitleTC({todolistTitle,todolistId}))
     }, [])
 
     if (!isLoginIn) {

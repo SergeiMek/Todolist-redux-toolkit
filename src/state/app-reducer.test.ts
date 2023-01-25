@@ -1,4 +1,4 @@
-import {appReducer, setAppErrorAC, setAppInitializedAC, setAppStatusAC, StatusType} from "./app-reducer";
+import {appReducer, initializeAppTC, setAppErrorAC, setAppStatusAC, StatusType} from "./app-reducer";
 
 
 type InitialStateType = {
@@ -30,7 +30,7 @@ test('correct status message should be set',()=>{
 })
 
 test('correct initialized message should be set',()=>{
-    const endState = appReducer(startState,setAppInitializedAC({value:true}))
+    const endState = appReducer(startState,initializeAppTC.fulfilled)
 
     expect(endState.isInitialized).toBe(true)
 })

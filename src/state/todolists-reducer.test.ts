@@ -1,8 +1,9 @@
 import {
-    addTodolistAC, changeTodolistEntityStatusAC,
-    changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValueType,
-    removeTodolistAC, setTodolistsAC, TodolistDomainType,
+    addTodolistTC,
+    changeTodolistEntityStatusAC,
+    changeTodolistFilterAC, changeTodolistTitleTC,
+    fetchTodolistTC, FilterValueType, removeTodolistTC,
+    TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
@@ -19,7 +20,7 @@ test('correct todolist should be removed', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', entityStatus: 'idle', addedDate: "", order: 0}
     ]
 
-    const endState = todolistsReducer(startState, removeTodolistAC({id: todolistId1}))
+    const endState = todolistsReducer(startState, removeTodolistTC.fulfilled({id: todolistId1},'',{todolistId: todolistId1}))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
@@ -37,7 +38,7 @@ test('correct todolist should be added', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', entityStatus: 'idle', addedDate: "", order: 0}
     ]
 
-    const endState = todolistsReducer(startState, addTodolistAC({todolist: {id: todolistId1, title: 'string', addedDate: "", order: 0}}))
+    const endState = todolistsReducer(startState, addTodolistTC.fulfilled({todolist: {id: todolistId1, title: 'string', addedDate: "", order: 0}},'',{todolistTitle:'string'}))
 
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe("string")
@@ -61,7 +62,7 @@ test('correct todolist should change its name', () => {
         title: newTodolistTitle
     }
 
-    const endState = todolistsReducer(startState, changeTodolistTitleAC({id:todolistId2,title:newTodolistTitle}))
+    const endState = todolistsReducer(startState, changeTodolistTitleTC.fulfilled({id:todolistId2,title:newTodolistTitle},"",{todolistTitle:newTodolistTitle,todolistId:todolistId2}))
 
     expect(endState[0].title).toBe('What to learn')
     expect(endState[1].title).toBe(newTodolistTitle)
@@ -99,7 +100,7 @@ test('todolists should be set to the state', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', entityStatus: 'idle', addedDate: "", order: 0}
     ]
 
-    const endState = todolistsReducer([], setTodolistsAC({todolists:startState}))
+    const endState = todolistsReducer([], fetchTodolistTC.fulfilled({todolists:startState},''))
 
     expect(endState.length).toBe(2)
 })
@@ -108,10 +109,10 @@ test('empty arrays should be added when we set todolists', () => {
     let todolistId1 = v1()
     let todolistId2 = v1()
 
-    const action = setTodolistsAC({todolists:[
+    const action =  fetchTodolistTC.fulfilled({todolists:[
             {id: '1', title: 'What to learn', addedDate: "", order: 0},
             {id: '2', title: 'What to buy', addedDate: "", order: 0}
-        ]})
+        ]},'')
 
     const endState = tasksReducer({}, action)
     const keys = Object.keys(endState)
