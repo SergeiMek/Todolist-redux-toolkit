@@ -1,35 +1,39 @@
-import {useAppDispatch, useAppSelector} from "../state/store";
+import {useActions, useAppDispatch, useAppSelector} from "../../state/store";
 import React, {useCallback, useEffect} from "react";
-import {addTodolistTC, changeTodolistTitleTC, fetchTodolistTC, removeTodolistTC} from "../state/todolists-reducer";
-import {CircularProgress, Grid, Paper} from "@mui/material";
-import {AddItemForm} from "./AddItemForm";
+import {Grid, Paper} from "@mui/material";
+import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist";
 import {Navigate} from "react-router-dom";
+import {appSelectors} from "../../app";
+import {authSelectors} from "../auth";
+import {selectTodolists} from "./selectors";
+import {addTodolistTC, changeTodolistTitleTC, fetchTodolistTC, removeTodolistTC} from "./todolist-action";
+import {todolistAction} from "./index";
 
 export const TodolistList = () => {
-    const dispatch = useAppDispatch();
-    const todolists = useAppSelector(state => state.todolists)
-    const entityStatus = useAppSelector(state => state.app.status)
-    const isLoginIn = useAppSelector(state => state.auth.isLoggedIn)
+    const todolists = useAppSelector(selectTodolists)
+    const entityStatus = useAppSelector(appSelectors.selectStatus)
+    const isLoginIn = useAppSelector(authSelectors.selectIsLoggedIn)
+    const {fetchTodolistTC,addTodolistTC,removeTodolistTC,changeTodolistTitleTC}=useActions(todolistAction)
 
     useEffect(() => {
         if (!isLoginIn) {
             return
         }
-        dispatch(fetchTodolistTC())
+        fetchTodolistTC()
     }, [])
 
 
     const addTodolist = useCallback((todolistTitle: string) => {
-        dispatch(addTodolistTC({todolistTitle}))
+       addTodolistTC({todolistTitle})
     }, [])
 
     const removeTodolist = useCallback((todolistId: string) => {
-        dispatch(removeTodolistTC({todolistId}))
+        removeTodolistTC({todolistId})
     }, [])
 
     const changeTodolistTitle = useCallback((todolistTitle: string, todolistId: string) => {
-        dispatch(changeTodolistTitleTC({todolistTitle,todolistId}))
+        changeTodolistTitleTC({todolistTitle,todolistId})
     }, [])
 
     if (!isLoginIn) {

@@ -1,6 +1,6 @@
-import {setAppStatusAC} from './app-reducer'
-import {authAPI, FieldErrorType, LoginParamsType} from "../api/todolists-api";
-import {handlerServerError, handleServerAppError} from "../utils/error-utils";
+import {setAppStatusAC} from '../../app/app-reducer'
+import {authAPI, FieldErrorType, LoginParamsType} from "../../api/todolists-api";
+import {handlerServerError, handleServerAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 

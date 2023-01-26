@@ -1,18 +1,16 @@
 import React, {useCallback, useEffect} from "react";
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "../../components/AddItemForm";
+import {EditableSpan} from "../../components/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {useAppDispatch, useAppSelector} from "../state/store";
-import {
-    addTasksTC,
-    fetchTasksTC,
-    removeTasksTC, updateTaskTC
-} from "../state/tasks-reducer";
-import {changeTodolistFilterAC, FilterValueType} from "../state/todolists-reducer";
-import {Task} from "./Task";
-import {TasksStatuses} from "../api/todolists-api";
-import {StatusType} from "../state/app-reducer";
+import {useActions, useAppDispatch, useAppSelector} from "../../state/store";
+import {changeTodolistFilterAC, FilterValueType} from "./todolists-reducer";
+import {Task} from "./Todolist/Task/Task";
+import {TasksStatuses} from "../../api/todolists-api";
+import {StatusType} from "../../app/app-reducer";
+import {tasksActions, taskSelectors} from "./Todolist/Task";
+import {addTasksTC, fetchTasksTC, removeTasksTC, updateTaskTC} from "./Todolist/Task/tasks-actions";
+import {todolistAction} from "./index";
 
 
 type propsType = {
@@ -26,24 +24,27 @@ type propsType = {
 
 
 export const Todolist = React.memo((props: propsType) => {
-        console.log("Todolist is called")
-        const dispatch = useAppDispatch();
-        const tasks = useAppSelector(state => state.tasks[props.id])
-        useEffect(() => {
-            dispatch(fetchTasksTC(props.id))
+   // const dispatch = useAppDispatch();
+    const {fetchTasksTC,removeTasksTC,updateTaskTC,addTasksTC}=useActions(tasksActions)
+    const {changeTodolistFilterAC}=useActions(todolistAction)
+        const task = useAppSelector(taskSelectors.selectTask)
+        const tasks =task[props.id]
+
+    useEffect(() => {
+            fetchTasksTC(props.id)
         }, [])
 
         const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
-            dispatch(changeTodolistFilterAC({id: todolistId, filter: value}))
+            changeTodolistFilterAC({id: todolistId, filter: value})
         }, [])
 
 
         const removeTask = useCallback((taskId: string, todolistId: string) => {
-            dispatch(removeTasksTC({taskId, todolistId}))
+           removeTasksTC({taskId, todolistId})
         }, [])
 
-        const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses, todolistId: string) => {
-            dispatch(updateTaskTC({taskId,todolistId,domainModel:{status}}))
+        const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses , todolistId: string) => {
+            updateTaskTC({taskId,todolistId,domainModel:{status}})
         }, [])
 
 
@@ -68,7 +69,7 @@ export const Todolist = React.memo((props: propsType) => {
                 </IconButton>
             </h3>
             <AddItemForm
-                addItem={useCallback(title => dispatch(addTasksTC({taskTitle: title, todolistId: props.id})), [props.id])}
+                addItem={useCallback(title => addTasksTC({taskTitle: title, todolistId: props.id}), [props.id])}
                 disabled={props.entityStatus === 'loading'}/>
             <div>
                 {

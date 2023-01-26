@@ -11,23 +11,28 @@ import {
     Typography
 } from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {fetchTodolistTC} from "./state/todolists-reducer";
-import {useAppDispatch, useAppSelector} from "./state/store";
-import {TodolistList} from './components/TodolistsList';
-import {CustomizedSnackbars} from "./components/ErrorSnackbar";
+import {useAppDispatch, useAppSelector} from "../state/store";
+import {TodolistList} from '../features/TodolistsList/TodolistsList';
+import {CustomizedSnackbars} from "../components/ErrorSnackbar";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "./components/Login";
-import {initializeAppTC} from "./state/app-reducer";
+import {Login} from "../features/auth/Login";
+import {initializeAppTC} from "./app-reducer";
 import Button from "@mui/material/Button";
-import {logoutTC} from "./state/authReducer";
+import {logoutTC} from "../features/auth/authReducer";
+import {appSelectors} from "./index";
+import {authSelectors} from "../features/auth";
+import {fetchTodolistTC} from "../features/TodolistsList/todolist-action";
+
+
+
 
 
 function App() {
 
     const dispatch = useAppDispatch();
-    const status = useAppSelector(state => state.app.status)
-    const isInitialized = useAppSelector(state => state.app.isInitialized)
-    const isLoginIn = useAppSelector(state => state.auth.isLoggedIn)
+    const status = useAppSelector(appSelectors.selectStatus)
+    const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
+    const isLoginIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
     useEffect(() => {
         dispatch(initializeAppTC())

@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/todolists-api";
-import {setIsLoggedInAC} from "./authReducer";
+import {setIsLoggedInAC} from "../features/auth/authReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
