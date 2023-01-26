@@ -1,7 +1,7 @@
-import {TaskPriorities, TasksStateType, TasksStatuses} from "../../../../api/todolists-api";
+import {TaskPriorities, TasksStateType, TasksStatuses} from "../../../api/todolists-api";
 import {createSlice} from "@reduxjs/toolkit";
 import {addTasksTC, fetchTasksTC, removeTasksTC, updateTaskTC} from "./tasks-actions";
-import {addTodolistTC, fetchTodolistTC, removeTodolistTC} from "../../todolist-action";
+import {addTodolistTC, fetchTodolistTC, removeTodolistTC} from "../todolist-action";
 
 ///types
 export type UpdateDomainTaskModelType = {

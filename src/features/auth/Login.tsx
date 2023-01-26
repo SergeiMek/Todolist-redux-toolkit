@@ -8,11 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../state/store";
+import {useActions, useAppSelector} from "../../state/store";
 import {Navigate} from "react-router-dom";
-import {loginTC} from "./authReducer";
-import {authSelectors} from "./index";
-
+import {authActions, authSelectors} from "./index";
 
 
 type FormikErrorType = {
@@ -25,8 +23,7 @@ type FormikErrorType = {
 export const Login = () => {
 
     let isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
-    const dispatch = useAppDispatch();
-
+    const {loginTC} = useActions(authActions)
 
 
     const formik = useFormik({
@@ -35,13 +32,13 @@ export const Login = () => {
             password: '',
             rememberMe: false
         },
-        onSubmit: async (values,formikHelpers) => {
+        onSubmit: async (values, formikHelpers) => {
 
-          const action = await dispatch(loginTC(values))
-            if(loginTC.rejected.match(action)){
-                if(action.payload?.fieldsErrors?.length){
+            const action: any = await loginTC(values)
+            if (loginTC.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
                     const error = action.payload?.fieldsErrors[0];
-                    formikHelpers.setFieldError(error.field,error.error)
+                    formikHelpers.setFieldError(error.field, error.error)
                 }
             }
             formik.resetForm()
@@ -60,7 +57,7 @@ export const Login = () => {
         },
 
     })
-    if(isLoggedIn){
+    if (isLoggedIn) {
         return <Navigate to={'/'}/>
     }
 

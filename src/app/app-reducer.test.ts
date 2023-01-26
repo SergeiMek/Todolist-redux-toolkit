@@ -1,4 +1,5 @@
-import {appReducer, initializeAppTC, setAppErrorAC, setAppStatusAC, StatusType} from "./app-reducer";
+import {appReducer, setAppErrorAC, setAppStatusAC, StatusType} from "./app-reducer";
+import {initializeAppTC} from "./app-action";
 
 
 type InitialStateType = {

@@ -4,7 +4,7 @@ import {
     todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
-import {tasksReducer} from "./Todolist/Task/tasks-reducer";
+import {tasksReducer} from "./Task/tasks-reducer";
 import {StatusType} from "../../app/app-reducer";
 import {addTodolistTC, changeTodolistTitleTC, fetchTodolistTC, removeTodolistTC} from "./todolist-action";
 

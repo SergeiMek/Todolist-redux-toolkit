@@ -1,8 +1,8 @@
 import {tasksReducer} from './tasks-reducer';
-import {TaskPriorities, TasksStateType, TasksStatuses} from '../../../../api/todolists-api';
+import {TaskPriorities, TasksStateType, TasksStatuses} from '../../../api/todolists-api';
 import {v1} from "uuid";
 import {addTasksTC, fetchTasksTC, removeTasksTC, updateTaskTC} from "./tasks-actions";
-import {removeTodolistTC} from "../../todolist-action";
+import {removeTodolistTC} from "../todolist-action";
 
 export let todolistID1 = v1();
 

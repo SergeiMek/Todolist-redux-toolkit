@@ -1,7 +1,5 @@
-import {Dispatch} from "redux";
-import {authAPI} from "../api/todolists-api";
-import {setIsLoggedInAC} from "../features/auth/authReducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {initializeAppTC} from "./app-action";
 
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -15,17 +13,6 @@ type InitialStateType = {
 export type ActionAppType = ReturnType<typeof setAppErrorAC> |
     ReturnType<typeof setAppStatusAC>
 
-
-export const initializeAppTC = createAsyncThunk('app/initializeApp', async (data, thunkAPI) => {
-    const res = await authAPI.me()
-    try {
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(setIsLoggedInAC({isLoggedIn: true}));
-        }
-    } catch (error) {
-
-    }
-})
 
 const slice = createSlice({
     name: 'app',

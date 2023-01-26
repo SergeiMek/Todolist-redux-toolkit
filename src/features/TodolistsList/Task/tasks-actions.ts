@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {setAppStatusAC} from "../../../../app/app-reducer";
-import {todolistsAPI, UpdateTaskModelType} from "../../../../api/todolists-api";
-import {handlerServerError, handleServerAppError} from "../../../../utils/error-utils";
-import {AppRootState} from "../../../../state/store";
+import {setAppStatusAC} from "../../../app/app-reducer";
+import {todolistsAPI, UpdateTaskModelType} from "../../../api/todolists-api";
+import {handlerServerError, handleServerAppError} from "../../../utils/error-utils";
+import {AppRootState} from "../../../state/store";
 import {UpdateDomainTaskModelType} from "./tasks-reducer";
 
 export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {

@@ -11,36 +11,33 @@ import {
     Typography
 } from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {useAppDispatch, useAppSelector} from "../state/store";
-import {TodolistList} from '../features/TodolistsList/TodolistsList';
+import {useActions, useAppDispatch, useAppSelector} from "../state/store";
 import {CustomizedSnackbars} from "../components/ErrorSnackbar";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/auth/Login";
-import {initializeAppTC} from "./app-reducer";
+import {appReducer} from "./app-reducer";
 import Button from "@mui/material/Button";
-import {logoutTC} from "../features/auth/authReducer";
-import {appSelectors} from "./index";
-import {authSelectors} from "../features/auth";
-import {fetchTodolistTC} from "../features/TodolistsList/todolist-action";
-
-
+import {appAsyncAction, appSelectors} from "./index";
+import {authActions, authSelectors, Login} from "../features/auth";
+import {TodolistList} from "../features/TodolistsList";
 
 
 
 function App() {
 
-    const dispatch = useAppDispatch();
     const status = useAppSelector(appSelectors.selectStatus)
     const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
     const isLoginIn = useAppSelector(authSelectors.selectIsLoggedIn)
+    const {initializeAppTC} = useActions(appAsyncAction)
+    const {logoutTC} = useActions(authActions)
+
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        initializeAppTC()
     }, [])
 
-    const logoutHandler =useCallback( ()=> {
-        dispatch(logoutTC())
-    },[])
+    const logoutHandler = useCallback(() => {
+        logoutTC()
+    }, [])
 
     if (!isInitialized) {
         return <div
@@ -48,7 +45,6 @@ function App() {
             <CircularProgress/>
         </div>
     }
-
 
 
     return (
