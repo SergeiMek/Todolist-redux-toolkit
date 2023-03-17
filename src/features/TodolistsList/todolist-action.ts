@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {todolistsAPI} from "../../api/todolists-api";
-import {handlerServerError} from "../../utils/error-utils";
+import {handlerServerError, handleServerAppError} from "../../utils/error-utils";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {changeTodolistEntityStatusAC} from "./todolists-reducer";
 
@@ -40,8 +40,13 @@ export const addTodolistTC = createAsyncThunk('todolist/addTodolist', async (par
     dispatch(setAppStatusAC({status: 'loading'}))
     const res = await todolistsAPI.createTodolist(params.todolistTitle)
     try {
-        dispatch(setAppStatusAC({status: 'succeeded'}))
-        return {todolist: res.data.data.item}
+        if (res.data.resultCode === 0) {
+            dispatch(setAppStatusAC({status: 'succeeded'}))
+            return {todolist: res.data.data.item}
+        } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+        }
     } catch (error) {
         handlerServerError(error, dispatch)
         return rejectWithValue(null)

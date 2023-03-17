@@ -1,23 +1,28 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, SetStateAction, useState} from "react";
 import {Button, IconButton, TextField} from "@mui/material";
 import {ControlPoint} from "@mui/icons-material";
 
 
 export type AddItemPropsType = {
-    addItem: (title: string) => void
-    disabled?:boolean
+    addItem: (title: string) => Promise<any>
+    disabled?: boolean
 
 }
 
-export const AddItemForm =React.memo( ({addItem,disabled = false}: AddItemPropsType) => {
+export const AddItemForm = React.memo(({addItem, disabled = false}: AddItemPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
-console.log("AddItemForm is called")
-    const addTask = () => {
+    const [error, setError] = useState<string| undefined | SetStateAction<any>>(null)
+    console.log("AddItemForm is called")
+    const addTask = async () => {
         if (newTaskTitle.trim() !== "") {
-            addItem(newTaskTitle)
-            setNewTaskTitle("")
-            setError(null)
+            try {
+                await addItem(newTaskTitle)
+                setNewTaskTitle("")
+            } catch (error:any) {
+                setError(error.message)
+            }
+
+
         } else {
             setError("Title is required")
 
@@ -29,7 +34,7 @@ console.log("AddItemForm is called")
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(error !== null){
+        if (error !== null) {
             setError(null)
         }
         if (e.charCode === 13) {
@@ -39,7 +44,7 @@ console.log("AddItemForm is called")
 
 
     return <div>
-        <div >
+        <div>
             <TextField value={newTaskTitle}
                        disabled={disabled}
                        label={"Type value"}
@@ -49,7 +54,7 @@ console.log("AddItemForm is called")
                        error={!!error}
                        helperText={error}
             />
-            <IconButton onClick={addTask} color={"primary"} disabled={disabled}>
+            <IconButton onClick={addTask} color={"primary"} disabled={disabled} style={{marginLeft: '5px'}}>
                 <ControlPoint/>
             </IconButton>
         </div>

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../components/AddItemForm";
 import {EditableSpan} from "../../components/EditableSpan";
-import {Button, IconButton, PropTypes} from "@mui/material";
+import {Button, IconButton, Paper, PropTypes} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {useActions, useAppSelector} from "../../state/store";
 import {FilterValueType} from "./todolists-reducer";
@@ -54,21 +54,22 @@ export const Todolist = React.memo((props: propsType) => {
             >{text}</Button>
         }
 
-        return <div>
-            <h3><EditableSpan title={props.title} onChange={useCallback((newValue: string) => changeTodolistTitleTC({
+        return <Paper style={{padding:'10px', position:'relative'}}>
+            <IconButton onClick={() => removeTodolistTC({todolistId: props.id})}
+                        disabled={props.entityStatus === 'loading'} style={{position:'absolute',right:'5px', top:'5px'}}>
+                <Delete fontSize={'small'}/>
+            </IconButton>
+            <h3 ><EditableSpan title={props.title} onChange={useCallback((newValue: string) => changeTodolistTitleTC({
                 todolistTitle: newValue,
                 todolistId: props.id
             }), [changeTodolistTitleTC, props.id])}/>
-                <IconButton onClick={() => removeTodolistTC({todolistId: props.id})}
-                            disabled={props.entityStatus === 'loading'}>
-                    <Delete/>
-                </IconButton>
             </h3>
             <AddItemForm
-                addItem={useCallback(title => addTasksTC({taskTitle: title, todolistId: props.id}), [props.id])}
+                addItem={useCallback(async title => addTasksTC({taskTitle: title, todolistId: props.id}), [props.id])}
                 disabled={props.entityStatus === 'loading'}/>
             <div>
                 {tasksForTodolist.map(t => <Task task={t} todolistId={props.id} key={t.id}/>)}
+                {!tasksForTodolist.length && <div style={{padding:'10px', color:'grey'}}>No task</div>}
             </div>
             <div style={{paddingTop: '10px'}}>
 
@@ -76,7 +77,7 @@ export const Todolist = React.memo((props: propsType) => {
                 {filterRenderButton("active", "success", 'Active')}
                 {filterRenderButton("completed", "secondary", 'Completed')}
             </div>
-        </div>
+        </Paper>
     }
 )
 

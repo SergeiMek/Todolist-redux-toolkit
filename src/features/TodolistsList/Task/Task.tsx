@@ -15,13 +15,13 @@ type TaskPropsType = {
 
 
 export const Task = React.memo((props: TaskPropsType) => {
-    const {updateTaskTC,removeTasksTC} = useActions(tasksActions)
+    const {updateTaskTC, removeTasksTC} = useActions(tasksActions)
 
-    const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses , todolistId: string) => {
-        updateTaskTC({taskId,todolistId,domainModel:{status}})
+    const changeTaskStatus = useCallback((taskId: string, status: TasksStatuses, todolistId: string) => {
+        updateTaskTC({taskId, todolistId, domainModel: {status}})
     }, [])
 
-    return <div>
+    return <div key={props.task.id} style={{position: 'relative'}}>
         <Checkbox checked={props.task.status === TasksStatuses.Completed}
                   onChange={(e) => changeTaskStatus(props.task.id, e.currentTarget.checked ? TasksStatuses.Completed : TasksStatuses.New, props.todolistId)}/>
         <EditableSpan title={props.task.title}
@@ -30,8 +30,10 @@ export const Task = React.memo((props: TaskPropsType) => {
                           todolistId: props.todolistId,
                           domainModel: {title}
                       }), [props.todolistId, props.task.id])}/>
-        <IconButton onClick={useCallback(()=>{removeTasksTC({taskId:props.task.id,todolistId:props.todolistId})},[props.task.id,props.todolistId])}>
-            <Delete/>
+        <IconButton onClick={useCallback(() => {
+            removeTasksTC({taskId: props.task.id, todolistId: props.todolistId})
+        }, [props.task.id, props.todolistId])} style={{position:'absolute',top:'2px',right:'2px'}}>
+            <Delete fontSize={'small'}/>
         </IconButton>
     </div>
 

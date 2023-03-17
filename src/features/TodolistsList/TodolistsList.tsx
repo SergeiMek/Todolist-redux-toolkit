@@ -1,6 +1,6 @@
-import {useActions, useAppDispatch, useAppSelector} from "../../state/store";
-import React, {useCallback, useEffect} from "react";
-import {Grid, Paper} from "@mui/material";
+import {useActions, useAppSelector} from "../../state/store";
+import React, {useEffect} from "react";
+import {Grid} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist";
 import {Navigate} from "react-router-dom";
@@ -28,13 +28,13 @@ export const TodolistList = () => {
 
     return <>
         <Grid container style={{padding: "20px"}}>
-            <AddItemForm addItem={(todolistTitle) => addTodolistTC({todolistTitle})}
+            <AddItemForm addItem={async (todolistTitle) => addTodolistTC({todolistTitle})}
                          disabled={entityStatus === 'loading'}/>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{flexWrap:"nowrap",overflowX:'scroll'}}>
             {todolists.map(tl => {
-                return <Grid item>
-                    <Paper style={{padding: "20px"}}>
+                return <Grid item key={tl.id}>
+                    <div style={{width:"300px"}}>
                         <Todolist
                             key={tl.id}
                             id={tl.id}
@@ -42,7 +42,7 @@ export const TodolistList = () => {
                             filter={tl.filter}
                             entityStatus={tl.entityStatus}
                         />
-                    </Paper>
+                    </div>
                 </Grid>
             })}
         </Grid>
