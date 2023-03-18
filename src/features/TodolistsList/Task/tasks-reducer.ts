@@ -17,7 +17,7 @@ export type UpdateDomainTaskModelType = {
 let initialState: TasksStateType = {}
 
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {},
@@ -57,5 +57,5 @@ const slice = createSlice({
 })
 
 
-export const tasksReducer = slice.reducer;
+//export const tasksReducer = slice.reducer;
 

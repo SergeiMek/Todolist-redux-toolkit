@@ -54,22 +54,24 @@ export const Todolist = React.memo((props: propsType) => {
             >{text}</Button>
         }
 
-        return <Paper style={{padding:'10px', position:'relative'}}>
+        return <Paper style={{padding: '10px', position: 'relative'}}>
             <IconButton onClick={() => removeTodolistTC({todolistId: props.id})}
-                        disabled={props.entityStatus === 'loading'} style={{position:'absolute',right:'5px', top:'5px'}}>
+                        disabled={props.entityStatus === 'loading'}
+                        style={{position: 'absolute', right: '5px', top: '5px'}}>
                 <Delete fontSize={'small'}/>
             </IconButton>
-            <h3 ><EditableSpan title={props.title} onChange={useCallback((newValue: string) => changeTodolistTitleTC({
+            <h3><div style={{ wordWrap: 'break-word'}}><EditableSpan title={props.title} onChange={useCallback((newValue: string) => changeTodolistTitleTC({
                 todolistTitle: newValue,
                 todolistId: props.id
             }), [changeTodolistTitleTC, props.id])}/>
+            </div>
             </h3>
             <AddItemForm
                 addItem={useCallback(async title => addTasksTC({taskTitle: title, todolistId: props.id}), [props.id])}
                 disabled={props.entityStatus === 'loading'}/>
             <div>
                 {tasksForTodolist.map(t => <Task task={t} todolistId={props.id} key={t.id}/>)}
-                {!tasksForTodolist.length && <div style={{padding:'10px', color:'grey'}}>No task</div>}
+                {!tasksForTodolist.length && <div style={{padding: '10px', color: 'grey'}}>No task</div>}
             </div>
             <div style={{paddingTop: '10px'}}>
 

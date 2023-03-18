@@ -58,7 +58,13 @@ export const changeTodolistTitleTC = createAsyncThunk('todolist/changeTodolistTi
 }) => {
     const res = await todolistsAPI.updateTodolist(params.todolistId, params.todolistTitle)
     try {
-        return {id: params.todolistId, title: params.todolistTitle}
+        if(res.data.resultCode === 0){
+            return {id: params.todolistId, title: params.todolistTitle}
+        }
+        else{
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+        }
     } catch (error) {
         handlerServerError(error, dispatch)
         return rejectWithValue(null)

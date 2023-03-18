@@ -12,7 +12,7 @@ export type AddItemPropsType = {
 export const AddItemForm = React.memo(({addItem, disabled = false}: AddItemPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState("")
     const [error, setError] = useState<string| undefined | SetStateAction<any>>(null)
-    console.log("AddItemForm is called")
+
     const addTask = async () => {
         if (newTaskTitle.trim() !== "") {
             try {

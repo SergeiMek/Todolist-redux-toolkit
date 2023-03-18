@@ -4,14 +4,18 @@ import * as authAsyncActions from './auth-action'
 import {slice} from './authReducer';
 
 
+
 const authActions = {
     ...slice.actions,
     ...authAsyncActions
 }
 
+const authReducer = slice.reducer
+
 
 export {
     authSelectors,
     Login,
-    authActions
+    authActions,
+    authReducer,
 }

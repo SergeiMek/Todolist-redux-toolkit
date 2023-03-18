@@ -1,12 +1,12 @@
 import {
     changeTodolistEntityStatusAC,
     changeTodolistFilterAC, FilterValueType, TodolistDomainType,
-    todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
-import {tasksReducer} from "./Task/tasks-reducer";
 import {StatusType} from "../../app/app-reducer";
 import {addTodolistTC, changeTodolistTitleTC, fetchTodolistTC, removeTodolistTC} from "./todolist-action";
+import { todolistsReducer } from '.';
+import {tasksReducer} from "./Task";
 
 
 test('correct todolist should be removed', () => {

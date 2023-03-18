@@ -8,9 +8,11 @@ const todolistAction ={
     ...todolistAsyncAction
 }
 
+const todolistsReducer = slice.reducer
 
 export {
     todolistSelectors,
     todolistAction,
-    TodolistList
+    TodolistList,
+    todolistsReducer
 }
