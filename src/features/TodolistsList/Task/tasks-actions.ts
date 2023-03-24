@@ -6,11 +6,15 @@ import {AppRootState} from "../../../state/store";
 import {UpdateDomainTaskModelType} from "./tasks-reducer";
 
 export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+   try { thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     const res = await todolistsAPI.getTasks(todolistId)
     let tasks = res.data.items
     thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-    return {tasks, todolistId}
+    return {tasks, todolistId}}
+    catch (error){
+        handlerServerError(error, thunkAPI.dispatch)
+        return thunkAPI.rejectWithValue(null)
+    }
 })
 export const removeTasksTC = createAsyncThunk('tasks/removeTasks', async (param: { taskId: string, todolistId: string }, thunkAPI) => {
     const res = await todolistsAPI.deleteTask(param.todolistId, param.taskId)

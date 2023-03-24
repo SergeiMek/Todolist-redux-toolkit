@@ -8,9 +8,10 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useActions, useAppSelector} from "../../state/store";
+import {useAppSelector} from "../../state/store";
 import {Navigate} from "react-router-dom";
 import {authActions, authSelectors} from "./index";
+import {useActions} from "../../utils/redux-utils";
 
 
 type FormikErrorType = {

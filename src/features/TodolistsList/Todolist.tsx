@@ -3,7 +3,7 @@ import {AddItemForm} from "../../components/AddItemForm";
 import {EditableSpan} from "../../components/EditableSpan";
 import {Button, IconButton, Paper, PropTypes} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {useActions, useAppSelector} from "../../state/store";
+import {useAppSelector} from "../../state/store";
 import {FilterValueType} from "./todolists-reducer";
 
 import {TasksStatuses} from "../../api/todolists-api";
@@ -12,6 +12,7 @@ import {Task, tasksActions, taskSelectors} from "./Task";
 import {todolistAction} from "./index";
 import {OverridableStringUnion} from "@mui/types";
 import {ButtonPropsColorOverrides} from "@mui/material/Button/Button";
+import {useActions} from "../../utils/redux-utils";
 
 
 type propsType = {

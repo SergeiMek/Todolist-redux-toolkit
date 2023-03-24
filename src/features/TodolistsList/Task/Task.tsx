@@ -3,8 +3,8 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../../../components/EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TasksStatuses, TaskType} from "../../../api/todolists-api";
-import {useActions} from "../../../state/store";
 import {tasksActions} from "./index";
+import {useActions} from "../../../utils/redux-utils";
 
 
 type TaskPropsType = {
